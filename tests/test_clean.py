@@ -29,6 +29,12 @@ def test_removes_image_embeds_entirely():
     assert out.split() == ["A", "B", "C"]
 
 
+def test_removes_plain_links_to_image_files():
+    # The local-images plugin writes non-embedded links like this; the alias is a file name, not prose.
+    out = clean_markdown("A [[Images/862775d5_MD5.jpg|Open: Pasted image 20260703141135.png]] B [[diagram.PNG]] C")
+    assert out.split() == ["A", "B", "C"]
+
+
 def test_wikilink_alias_wins_over_target():
     # [[target|alias]] renders as "alias" in Obsidian, so the alias is what the reader sees.
     out = clean_markdown("Writing in [[Home|exocortex]] daily")

@@ -16,6 +16,9 @@ _RULES = [
     (re.compile(r"\A---\n.*?\n---\n", re.S), ""),  # YAML frontmatter: only at file start (\A), lazy .*? stops at the first closing ---
     (re.compile(r"```.*?```", re.S), " "),  # fenced code blocks: re.S lets . span newlines inside the fence
     (re.compile(r"!\[\[[^\]]*\]\]"), " "),  # Obsidian embeds ![[file|size]]: drop file names, hashes and sizes
+    # Plain (non-embedded) links to image files, e.g. [[Images/<hash>_MD5.jpg|Open: Pasted image 2026….png]] written by
+    # the local-images plugin: target and alias are file names, so drop the whole link before the wikilink rule keeps the alias.
+    (re.compile(r"\[\[[^\]|]*\.(?:png|jpe?g|gif|webp|svg)(?:\|[^\]]*)?\]\]", re.I), " "),
     (re.compile(r"!\[[^\]]*\]\([^)]*\)"), " "),  # markdown images ![alt](url): alt text is usually empty or a file name
     (re.compile(r"\[([^\]]*)\]\([^)]*\)"), r"\1"),  # markdown links [text](url): keep the visible text (group 1), drop the url
     (re.compile(r"https?://\S+|www\.\S+"), " "),  # bare URLs: \S+ eats up to the next whitespace
