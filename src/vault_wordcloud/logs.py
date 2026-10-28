@@ -13,6 +13,10 @@ from pathlib import Path
 
 def setup_logging(log_dir: Path) -> Path:
     """Send INFO+ records to stdout and a fresh timestamped file; return that file's path."""
+    # Windows consoles default to cp1252, which can't print Czech note names/words; switch stdout to UTF-8
+    # (https://docs.python.org/3/library/io.html#io.TextIOWrapper.reconfigure). pytest's capture stream lacks reconfigure.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / f"run_{datetime.now():%Y%m%d_%H%M%S}.log"
     logging.basicConfig(

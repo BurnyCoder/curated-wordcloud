@@ -1,0 +1,66 @@
+# Extra words hidden from the cloud, added on top of wordcloud.STOPWORDS (English) and the
+# stopwords-iso lists for STOPWORD_LANGS (Czech by default). One word per line, case-insensitive; '#' starts a comment.
+# Chosen by reading the top-200 terms of the first run: these carry no topic, they're just frequent.
+
+# Link-title source labels: the auto-link-title plugin names links "<page title> - Wikipedia" / "- YouTube"
+wikipedia
+youtube
+
+# English filler: hedges, discourse words and generic verbs
+etc
+will
+one
+two
+using
+use
+used
+think
+maybe
+even
+lot
+want
+see
+much
+many
+way
+make
+various
+still
+might
+sometimes
+yet
+now
+enough
+trying
+instead
+thing
+something
+seem
+mostly
+well
+already
+know
+look
+let
+really
+relatively
+need
+every
+across
+without
+part
+end
+# Second pass (small filler left in the first rendered cloud). Plurals need their own line:
+# wordcloud drops stopwords *before* merging plurals, so "thing" doesn't hide "things".
+things
+actually
+seems
+say
+try
+may
+go
+often
+fully
+primarily
+sort
+uses

@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 def run(config: Config) -> dict[str, int]:
     """Run all phases for one config and return the word counts the cloud was drawn from."""
     log_file = setup_logging(config.log_dir)
-    log.info("Config: %s", config)
+    log.info("Config: %s (+%d extra stopwords)", config, len(config.extra_stopwords))
     paths = collect_sources(config.vault_dir, config.source_files, config.source_dirs)
     log.info("Collected %d notes", len(paths))
     text = "\n\n".join(clean_markdown(note) for note in read_notes(paths, config.vault_dir))
