@@ -1,0 +1,7 @@
+# Keep the generator's local environment and run artifacts out of the vault's auto-backup (obsidian-git commits every 5 min).
+# Gitignore syntax: https://git-scm.com/docs/gitignore
+.venv/
+__pycache__/
+.pytest_cache/
+logs/
+.env
