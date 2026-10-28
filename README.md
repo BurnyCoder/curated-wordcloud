@@ -1,6 +1,6 @@
 # Vault word cloud
 
-A word cloud of the core writing on this site: [[Home]], [[Exocortex]], [[About me and my experience]] and every note in [[Articles]] (28 notes, ~270k characters after cleaning). Word size grows with how often the word appears, after Obsidian markup, URLs and filler words (English and Czech) are removed. Counting ignores case, and words are shown in lowercase except all-caps acronyms such as *AI* and *LLM*. The most frequent words sit in the middle, and every word gets a random rainbow color.
+A word cloud of the core writing on [burnyverse.com](https://burnyverse.com): [Home](https://burnyverse.com/Home), [Exocortex](https://burnyverse.com/Exocortex), [About me and my experience](https://burnyverse.com/About+me+and+my+experience) and every note in [Articles](https://burnyverse.com/Articles) (28 notes, ~270k characters after cleaning). Word size grows with how often the word appears, after Obsidian markup, URLs and filler words (English and Czech) are removed. Counting ignores case, and words are shown in lowercase except all-caps acronyms such as *AI* and *LLM*. The most frequent words sit in the middle, and every word gets a random rainbow color.
 
 ![Word cloud of Home, Exocortex, About me and Articles](wordcloud.png)
 
@@ -34,6 +34,12 @@ Hidden words come from three sources:
 - The [stopwords-iso Czech list](https://github.com/stopwords-iso/stopwords-cs), because three Articles are partly in Czech. Without it, *je* ("is"), *co* ("what") and *ale* ("but") would rank 52nd, 76th and 122nd and appear in the cloud.
 
 **Known limitation:** the Czech list also contains a few English words. The only one that occurs in these notes as English content is *design* (7 mentions). It is hidden, so it's missing from the cloud even though its 7 mentions clear the 4-mention cutoff.
+
+## Repository
+
+This repo ([curated-wordcloud](https://github.com/BurnyCoder/curated-wordcloud)) mirrors the `Wordcloud/` folder of the Obsidian vault behind burnyverse.com. The vault repo itself is private, but every note used here is published on the site. The mirror is updated from the vault with [`git subtree`](https://git-scm.com/docs/git-subtree): `git subtree push --prefix=Wordcloud curated-wordcloud main`.
+
+The generator reads notes from the vault one folder up (`VAULT_DIR=..`). To make a cloud of another Obsidian vault from a standalone clone, set `VAULT_DIR`, `SOURCE_FILES` and `SOURCE_DIRS` in `.env` (see `.env.example`).
 
 ## Usage
 
