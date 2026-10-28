@@ -25,6 +25,8 @@ def test_run_writes_png_and_counts_clean_words(tmp_path):
         width=200,
         height=100,
         max_words=50,
+        max_font_size=40,
+        relative_scaling=0.5,
         random_state=0,
         extra_stopwords={"see"},
     )

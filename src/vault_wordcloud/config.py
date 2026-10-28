@@ -29,6 +29,8 @@ class Config:
     width: int  # canvas size in pixels
     height: int
     max_words: int  # cap on words drawn (WordCloud max_words)
+    max_font_size: int  # pixel size of the most frequent word; the rest scale down from it
+    relative_scaling: float  # 0..1, roughly the exponent in size ~ freq**rs; lower = big words relatively smaller
     random_state: int  # fixed seed -> identical layout and colours on every run
     # Added on top of wordcloud.STOPWORDS: stopwords.txt + stopwords-iso lists. repr=False keeps ~450 words out of the
     # logged config (dataclass field options: https://docs.python.org/3/library/dataclasses.html#dataclasses.field).
@@ -58,6 +60,8 @@ def load_config() -> Config:
         width=int(os.getenv("WIDTH", "2000")),
         height=int(os.getenv("HEIGHT", "1200")),
         max_words=int(os.getenv("MAX_WORDS", "200")),
+        max_font_size=int(os.getenv("MAX_FONT_SIZE", "300")),
+        relative_scaling=float(os.getenv("RELATIVE_SCALING", "0.4")),
         random_state=int(os.getenv("RANDOM_STATE", "42")),
         # Some Articles are partly Czech, so Czech function words (je, ale, co...) are filtered via stopwords-iso
         # (https://github.com/stopwords-iso/stopwords-cs, Python wrapper https://github.com/bact/stopwords-iso).
