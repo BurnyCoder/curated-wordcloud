@@ -10,7 +10,6 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
-import stopwordsiso
 from dotenv import load_dotenv
 
 # src/vault_wordcloud/config.py -> parents[2] is the Wordcloud/ project folder (pathlib: https://docs.python.org/3/library/pathlib.html#pathlib.PurePath.parents).
@@ -32,7 +31,7 @@ class Config:
     max_font_size: int  # pixel size of the most frequent word; the rest scale down from it
     relative_scaling: float  # 0..1, roughly the exponent in size ~ freq**rs; lower = big words relatively smaller
     random_state: int  # fixed seed -> identical layout and colours on every run
-    # Added on top of wordcloud.STOPWORDS: stopwords.txt + stopwords-iso lists. repr=False keeps ~450 words out of the
+    # Added on top of wordcloud.STOPWORDS: the words in stopwords.txt. repr=False keeps the list out of the
     # logged config (dataclass field options: https://docs.python.org/3/library/dataclasses.html#dataclasses.field).
     extra_stopwords: set[str] = field(repr=False)
 
@@ -64,8 +63,5 @@ def load_config() -> Config:
         max_font_size=int(os.getenv("MAX_FONT_SIZE", "180")),
         relative_scaling=float(os.getenv("RELATIVE_SCALING", "0.5")),
         random_state=int(os.getenv("RANDOM_STATE", "42")),
-        # Some Articles are partly Czech, so Czech function words (je, ale, co...) are filtered via stopwords-iso
-        # (https://github.com/stopwords-iso/stopwords-cs, Python wrapper https://github.com/bact/stopwords-iso).
-        extra_stopwords=_wordlist(PROJECT_DIR / os.getenv("STOPWORDS_FILE", "stopwords.txt"))
-        | stopwordsiso.stopwords(_csv("STOPWORD_LANGS", "cs")),
+        extra_stopwords=_wordlist(PROJECT_DIR / os.getenv("STOPWORDS_FILE", "stopwords.txt")),
     )

@@ -59,6 +59,12 @@ def test_removes_code_fences_and_html():
     assert out.split() == ["before", "after"]
 
 
+def test_drops_czech_lines_keeps_english_ones():
+    # Lines with Czech-only letters (ě š č ř ž ů ň ť ď) are removed whole; English lines around them survive.
+    out = clean_markdown("Work in progress article.\nŘeší se to pořád všechny ty roky.\nBut researchers disagree.")
+    assert out.split() == ["Work", "in", "progress", "article.", "But", "researchers", "disagree."]
+
+
 def test_normalizes_typographic_apostrophes():
     # wordcloud's STOPWORDS spell contractions with a straight ' (e.g. "i'm"), but the vault uses ’ (smart-typography plugin).
     assert clean_markdown("I’m sure it’s fine") == "I'm sure it's fine"

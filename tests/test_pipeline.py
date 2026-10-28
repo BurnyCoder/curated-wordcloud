@@ -13,8 +13,10 @@ def test_run_writes_png_and_counts_clean_words(tmp_path):
     vault = tmp_path / "vault"
     (vault / "Articles").mkdir(parents=True)
     # One top-level note and one article, both with markup that must not leak into the counts.
-    (vault / "Home.md").write_text("---\naliases: [x]\n---\nInterpretability rocks. [[Home|exocortex]]", encoding="utf-8")
-    (vault / "Articles" / "A.md").write_text("Interpretability again, see https://arxiv.org/abs/1", encoding="utf-8")
+    (vault / "Home.md").write_text("---\naliases: [x]\n---\nInterpretability rocks. [[Home|exocortex]] AI", encoding="utf-8")
+    (vault / "Articles" / "A.md").write_text(
+        "interpretability again, see https://arxiv.org/abs/1\nTřeba jak vlastně vidím AGI.", encoding="utf-8"
+    )
 
     config = Config(
         vault_dir=vault,
@@ -33,6 +35,7 @@ def test_run_writes_png_and_counts_clean_words(tmp_path):
     counts = run(config)
 
     assert config.output.exists() and config.output.stat().st_size > 0
-    assert counts["Interpretability"] == 2  # counted once per note, case kept as written
-    for junk in ("aliases", "https", "arxiv", "see", "Home"):
-        assert junk not in counts
+    assert counts["interpretability"] == 2  # "Interpretability" + "interpretability": one word, shown lowercase
+    assert counts["AI"] == 1  # all-caps acronyms keep their case
+    for junk in ("aliases", "https", "arxiv", "see", "Home", "home", "AGI", "vidím", "Třeba", "třeba"):
+        assert junk not in counts  # markup, stopwords, link targets and the whole Czech line are gone

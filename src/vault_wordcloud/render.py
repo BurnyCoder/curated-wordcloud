@@ -29,6 +29,13 @@ def rainbow_color(*args, random_state, **kwargs) -> str:
     return f"hsl({random_state.randint(0, 359)}, 85%, 45%)"
 
 
+def display_case(word: str) -> str:
+    """Lowercase every token of a word or bigram except all-caps acronyms: "Artificial Intelligence" -> "artificial
+    intelligence", "AI system" -> "AI system". Counting is already case-insensitive (the library merges case variants
+    and shows the most common one); this only makes the shown form uniform."""
+    return " ".join(token if token.isupper() else token.lower() for token in word.split(" "))
+
+
 def render_wordcloud(text: str, config: Config) -> dict[str, int]:
     """Draw `text` into config.output as a PNG and return the word -> count dict the cloud was sized by."""
     cloud = WordCloud(
@@ -46,7 +53,9 @@ def render_wordcloud(text: str, config: Config) -> dict[str, int]:
         color_func=rainbow_color,
         collocations=True,  # default: also counts strong bigrams like "mechanistic interpretability" as one entry
     )
-    counts = cloud.process_text(text)  # tokenizes, drops stopwords/numbers/short words, merges plurals and finds bigrams
+    # process_text tokenizes, drops stopwords/numbers/short words, merges case variants and plurals, and finds bigrams.
+    # Its keys are unique ignoring case, so re-casing them with display_case can't merge two entries.
+    counts = {display_case(word): n for word, n in cloud.process_text(text).items()}
     # generate_from_frequencies builds its occupancy map from the module-global name IntegralOccupancyMap, so swap in
     # the centre-out version for this call only; patch.object restores the original afterwards
     # (https://docs.python.org/3/library/unittest.mock.html#patch-object).

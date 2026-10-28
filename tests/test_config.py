@@ -1,7 +1,7 @@
-"""Tests for load_config: defaults point at the real vault notes and the stopword sources are merged.
+"""Tests for load_config: defaults point at the real vault notes and stopwords.txt is parsed.
 
-Global context: these read the real Wordcloud/stopwords.txt and the stopwords-iso Czech list, so they
-catch a broken path or a dropped language before a run produces a cloud full of "je"/"ale" or "Wikipedia".
+Global context: these read the real Wordcloud/stopwords.txt, so they catch a broken path or comment
+handling before a run produces a cloud full of filler like "Wikipedia" or "etc".
 """
 
 from vault_wordcloud.config import load_config
@@ -13,8 +13,7 @@ def test_default_sources_exist_in_vault():
     assert all((config.vault_dir / folder).is_dir() for folder in config.source_dirs)
 
 
-def test_stopwords_merge_file_and_czech_list():
+def test_stopwords_file_is_loaded_without_comments():
     words = load_config().extra_stopwords
-    assert {"wikipedia", "etc"} <= words  # from stopwords.txt
-    assert {"je", "ale"} <= words  # from stopwordsiso.stopwords("cs")
+    assert {"wikipedia", "etc"} <= words
     assert "#" not in "".join(words)  # comments are stripped
