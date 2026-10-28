@@ -1,5 +1,5 @@
-# Extra words hidden from the cloud, added on top of wordcloud.STOPWORDS (English).
-# One word per line, case-insensitive; '#' starts a comment.
+# Extra words hidden from the cloud, added on top of wordcloud.STOPWORDS (English) and the
+# stopwords-iso lists for STOPWORD_LANGS (Czech by default). One word per line, case-insensitive; '#' starts a comment.
 # Chosen by reading the top-200 terms of the first run: these carry no topic, they're just frequent.
 
 # Link-title source labels: the auto-link-title plugin names links "<page title> - Wikipedia" / "- YouTube"

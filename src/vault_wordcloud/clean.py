@@ -13,9 +13,6 @@ import re
 
 # (pattern, replacement) pairs applied in order; order matters because image syntax `![..](..)` also matches the plain-link pattern.
 _RULES = [
-    # Czech lines (a few Articles are partly Czech): ě š č ř ž ů ň ť ď never occur in English, so a line containing
-    # one is Czech; re.M makes ^/$ match per line, and the whole line is blanked (https://docs.python.org/3/library/re.html#re.M).
-    (re.compile(r"^.*[ěščřžůňťďĚŠČŘŽŮŇŤĎ].*$", re.M), ""),
     (re.compile(r"\A---\n.*?\n---\n", re.S), ""),  # YAML frontmatter: only at file start (\A), lazy .*? stops at the first closing ---
     (re.compile(r"```.*?```", re.S), " "),  # fenced code blocks: re.S lets . span newlines inside the fence
     (re.compile(r"!\[\[[^\]]*\]\]"), " "),  # Obsidian embeds ![[file|size]]: drop file names, hashes and sizes
