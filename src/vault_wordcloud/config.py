@@ -60,8 +60,9 @@ def load_config() -> Config:
         width=int(os.getenv("WIDTH", "2000")),
         height=int(os.getenv("HEIGHT", "1200")),
         max_words=int(os.getenv("MAX_WORDS", "200")),
-        max_font_size=int(os.getenv("MAX_FONT_SIZE", "300")),
-        relative_scaling=float(os.getenv("RELATIVE_SCALING", "0.4")),
+        # 180 px vs the library's auto-fit 661 px for "AI"; rs 0.5 ~ square-root sizing, d3-cloud's default (Math.sqrt).
+        max_font_size=int(os.getenv("MAX_FONT_SIZE", "180")),
+        relative_scaling=float(os.getenv("RELATIVE_SCALING", "0.5")),
         random_state=int(os.getenv("RANDOM_STATE", "42")),
         # Some Articles are partly Czech, so Czech function words (je, ale, co...) are filtered via stopwords-iso
         # (https://github.com/stopwords-iso/stopwords-cs, Python wrapper https://github.com/bact/stopwords-iso).
