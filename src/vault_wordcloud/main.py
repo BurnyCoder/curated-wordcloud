@@ -34,8 +34,12 @@ def run(config: Config) -> dict[str, int]:
 
 
 def main() -> None:
-    """CLI entry: load .env config and run."""
-    run(load_config())
+    """CLI entry: load .env config and run; a crash is logged with its traceback so the run log explains it."""
+    try:
+        run(load_config())
+    except Exception:
+        log.exception("Run failed")  # logging.exception adds the traceback (https://docs.python.org/3/library/logging.html#logging.Logger.exception)
+        raise
 
 
 if __name__ == "__main__":
